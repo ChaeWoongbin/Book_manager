@@ -20,6 +20,8 @@ namespace Rental_BOok
 
         // 유저 정보
         public static login_info user = new login_info();
+        // 책 정보
+        public static Book_info book = new Book_info();
 
         public static bool login_state = false;
     }
@@ -32,5 +34,15 @@ namespace Rental_BOok
         public string user_note { get; set; }
         public string user_image { get; set; }
         public string user_level { get; set; }
+    }
+
+    public class Book_info
+    {
+        public string Book_name { get; set; }
+        public string Book_Genre { get; set; }
+        public string Book_author { get; set; }
+        public string Book_note { get; set; }
+        public string Book_image { get; set; }
+        public string Book_ID { get; set; }
     }
 }

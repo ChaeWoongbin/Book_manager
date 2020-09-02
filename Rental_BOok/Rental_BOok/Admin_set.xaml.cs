@@ -23,6 +23,9 @@ namespace Rental_BOok
     public partial class Admin_set : UserControl
     {
         string User_ID;
+        string Book_ID;
+        string User_img_path;
+        string Book_img_path;
 
         public Admin_set()
         {
@@ -153,6 +156,12 @@ namespace Rental_BOok
             Data.DB_con.write_query(query);
 
             // 이미지 삭제
+            FileInfo fileDel = new FileInfo(System.Environment.CurrentDirectory + @"\User\" + Data.user.user_image);
+
+            if (fileDel.Exists) // 삭제할 파일이 있는지
+            {
+                fileDel.Delete(); // 없어도 에러안남
+            }
 
 
             // 삭제 후 재검색
@@ -237,6 +246,150 @@ namespace Rental_BOok
             encoder.Save(stream);
 
             stream.Close();
+        }
+
+        private void ListBox_book_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string sel_book = "";
+            try
+            {
+                sel_book = ((ListBox)sender).SelectedItem.ToString();
+            }
+            catch
+            {
+                return;
+            }
+
+            string query = "select * from books where book_name = '{0}';";
+            query = string.Format(query, sel_book);
+
+            DataTable searchs = Data.DB_con.GetTable(query);
+
+            book_img.Source = new BitmapImage();
+            book_img.Stretch = Stretch.Uniform;
+
+
+            // 리팩토링 시 DB값 지역변수 저장 필요
+            try
+            {
+
+                BitmapImage image = new BitmapImage();
+
+                using (var stream = File.OpenRead(System.Environment.CurrentDirectory + @"\books\" + searchs.Rows[0]["image_path"].ToString() + ".png"))
+                {
+                    image.BeginInit();
+                    image.CacheOption = BitmapCacheOption.OnLoad;
+                    image.StreamSource = stream;
+                    image.EndInit();
+
+                    book_img.Source = image;
+                    Book_img_path = stream.Name;
+                    /*
+                    book_img.BeginInit();
+                    book_img.Source = new BitmapImage(new Uri(stream.Name));
+                    Book_img_path = stream.Name;
+                    book_img.EndInit();*/
+                }
+                /*
+                book_img.BeginInit();
+                book_img.Source = new BitmapImage(new Uri(System.Environment.CurrentDirectory + @"\books\" + searchs.Rows[0]["image_path"].ToString() + ".png"));
+                Book_img_path = System.Environment.CurrentDirectory + @"\books\" + searchs.Rows[0]["image_path"].ToString() + ".png";
+                book_img.EndInit();
+                */
+            }
+            catch
+            {
+                book_img.BeginInit();
+                book_img.Source = new BitmapImage(new Uri(@"Resource\iconmonstr-book-1-240.png", UriKind.Relative)); // 이미지 찾기 실패시 기본 이미지 표시
+                Book_img_path = "";
+                book_img.EndInit();
+            }
+            MessageBox.Show(System.Environment.CurrentDirectory + @"\books\" + searchs.Rows[0]["image_path"].ToString() + ".png");
+            lblbook.Content = searchs.Rows[0]["Book_name"];
+            lblGenre.Content = searchs.Rows[0]["Book_Genre"];
+            lblAuthor.Content = searchs.Rows[0]["Book_author"];
+            lblNote.Content = searchs.Rows[0]["Note"].ToString();
+            Book_ID = searchs.Rows[0]["Book_ID"].ToString();
+        }
+
+        private void btn_book_search(object sender, RoutedEventArgs e)
+        {
+            search_book_list.Items.Clear();
+
+            if (search_book_text.Text == "")
+            {
+                MessageBox.Show("검색어를 확인해주세요");
+                return;
+            }
+
+            string target = search_book_text.Text;
+
+            string query = "select Book_name from books where Book_name like '%{0}%';";
+            query = string.Format(query, target);
+
+            DataTable searchs = Data.DB_con.GetTable(query);
+
+            foreach (DataRow element in searchs.Rows)
+            {
+                search_book_list.Items.Add(element["book_name"]);
+            }
+        }
+
+        private void btn_book_all_search(object sender, RoutedEventArgs e)
+        {
+            search_book_list.Items.Clear();
+
+            string query = "select book_name from books;";
+
+            DataTable searchs = Data.DB_con.GetTable(query);
+
+            foreach (DataRow element in searchs.Rows)
+            {
+                search_book_list.Items.Add(element["book_name"]);
+            }
+        }
+
+        private void btn_book_del(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show("삭제 하시겠습니까?", "메세지", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+            {
+
+            }
+            else
+            {
+                return;
+            }
+            string target = Book_ID;
+
+            string query = "DELETE FROM books WHERE `Book_ID`={0};";
+
+            query = string.Format(query, target);
+
+            Data.DB_con.write_query(query);
+            // 이미지 삭제
+            FileInfo fileDel = new FileInfo(Book_img_path);
+
+            if (fileDel.Exists) // 삭제할 파일이 있는지
+            {
+                fileDel.Delete(); // 없어도 에러안남
+            }
+
+            // 삭제 후 재검색
+            lblbook.Content = "";
+            lblGenre.Content = "";
+            lblAuthor.Content = "";
+            Book_ID = "";
+
+            search_book_list.Items.Clear();
+
+            query = "select Book_name from books;";
+
+            DataTable searchs = Data.DB_con.GetTable(query);
+
+            foreach (DataRow element in searchs.Rows)
+            {
+                search_book_list.Items.Add(element["Book_name"]);
+            }
         }
     }
 }

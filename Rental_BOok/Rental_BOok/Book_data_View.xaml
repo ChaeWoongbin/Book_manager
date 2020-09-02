@@ -1,0 +1,147 @@
+﻿<UserControl x:Class="Rental_BOok.Book_data_View"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Rental_BOok"
+        xmlns:zg ="clr-namespace:ZedGraph;assembly=ZedGraph" 
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Background="WhiteSmoke">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="2*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+            <Button Content="Home" Margin="1" Click="Home_Click" Grid.Row="0">
+                <Button.Template>
+                    <ControlTemplate>
+                        <Grid x:Name="backG">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="2*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid Grid.Column="0">
+                                <Image x:Name="BuB" Source="Resource\iconmonstr-book-1-240.png" Margin="10" />
+                            </Grid>
+                            <Label Margin="5" Content="Home" Grid.Column="1" FontSize="24" VerticalContentAlignment="Center"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <!--올릴 때-->
+                                <Setter TargetName="backG" Property="Background" Value="skyBlue" />
+                                <Setter Property="Foreground" Value="White" />
+                            </Trigger>
+
+                            <Trigger Property="ButtonBase.IsPressed" Value="True">
+                                <!--누를 때-->
+                                <Setter TargetName="backG" Property="Background" Value="LightBlue" />
+                                <Setter Property="Foreground" Value="White" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+
+            <Button Content="Rental" Margin="1" Grid.Row="1" Click="Rental_Click" >
+                <Button.Template>
+                    <ControlTemplate>
+                        <Grid x:Name="backG">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="2*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid Grid.Column="0">
+                                <Image x:Name="BuB" Source="Resource\iconmonstr-book-1-240.png" Margin="10" />
+                            </Grid>
+                            <Label Margin="5" Content="Rental" Grid.Column="1" FontSize="24" VerticalContentAlignment="Center"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <!--올릴 때-->
+                                <Setter TargetName="backG" Property="Background" Value="skyBlue" />
+                                <Setter Property="Foreground" Value="White" />
+                            </Trigger>
+
+                            <Trigger Property="ButtonBase.IsPressed" Value="True">
+                                <!--누를 때-->
+                                <Setter TargetName="backG" Property="Background" Value="LightBlue" />
+                                <Setter Property="Foreground" Value="White" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+
+            <Button Content="Home" Margin="1" Click="Search_Click" Grid.Row="2">
+                <Button.Template>
+                    <ControlTemplate>
+                        <Grid x:Name="backG">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="2*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid Grid.Column="0">
+                                <Image x:Name="BuB" Source="Resource\iconmonstr-magnifier-5-240.png" Margin="10" />
+                            </Grid>
+                            <Label Margin="5" Content="Search" Grid.Column="1" FontSize="24" VerticalContentAlignment="Center"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <!--올릴 때-->
+                                <Setter TargetName="backG" Property="Background" Value="skyBlue" />
+                                <Setter Property="Foreground" Value="White" />
+                            </Trigger>
+
+                            <Trigger Property="ButtonBase.IsPressed" Value="True">
+                                <!--누를 때-->
+                                <Setter TargetName="backG" Property="Background" Value="LightBlue" />
+                                <Setter Property="Foreground" Value="White" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+
+            <Button Content="Home" Margin="1" Grid.Row="3">
+                <Button.Template>
+                    <ControlTemplate>
+                        <Grid x:Name="backG" Background="DeepSkyBlue">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="2*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid Grid.Column="0">
+                                <Image x:Name="BuB" Source="Resource\iconmonstr-chart-4-240.png" Margin="10" />
+                            </Grid>
+                            <Label Margin="5" Content="Chart" Grid.Column="1" FontSize="24" VerticalContentAlignment="Center"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="ButtonBase.IsPressed" Value="True">
+                                <!--누를 때-->
+                                <Setter TargetName="backG" Property="Background" Value="LightBlue" />
+                                <Setter Property="Foreground" Value="White" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Grid Grid.Column="1" Grid.RowSpan="5">
+                <Grid Name="shot">
+                    <DockPanel Margin="10" LastChildFill="True">
+                        <WindowsFormsHost>
+                            <zg:ZedGraphControl x:Name="ZedG" Dock="Fill"/>
+                        </WindowsFormsHost>
+                    </DockPanel>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

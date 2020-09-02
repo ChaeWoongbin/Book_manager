@@ -1,0 +1,54 @@
+﻿<Window x:Class="Rental_BOok.Login_View"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Rental_BOok"
+        mc:Ignorable="d"
+        Title="Login_View" Height="225" Width="530">
+    <Border BorderThickness="1" BorderBrush="Black" Margin="0">
+        <Grid  Grid.ColumnSpan="3" Grid.RowSpan="4" Background="WhiteSmoke">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="15*"/>
+                <RowDefinition Height="5*"/>
+                <RowDefinition Height="15*"/>
+                <RowDefinition Height="15*"/>
+                <RowDefinition Height="15*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+            <Grid Background="SkyBlue" Grid.ColumnSpan="3">
+                <Label Margin="21,6,19,4" Content="Login Form" FontSize="16" Foreground="Black" FontWeight="Heavy"></Label>
+                <Label Margin="20,5,20,5" Content="Login Form" FontSize="16" Foreground="WhiteSmoke" FontWeight="Heavy"></Label>
+            </Grid>
+            <Button Content="Login" Margin="10,5,10,5" Click="Button_Click" Grid.Column="2"  Grid.Row="2"/>
+            <Button Content="Close" Margin="10,5,10,5" Click="Close_Click" Grid.Column="2"  Grid.Row="3"/>
+            <Label Content="id" Margin="5" Grid.Row="2" />
+            <TextBox Name="ID" Grid.Row="2" Grid.Column="1" Margin="20,5,20,5" TextAlignment="Left"/>
+            <Label Content="password" Margin="5" Grid.Row="3"/>
+            <PasswordBox Name="PW" PasswordChar="●" Grid.Row="3" Grid.Column="1" Margin="20,5,20,5" />
+
+
+            <Button  Margin="10,0,10,5" Grid.Column="1"  Grid.Row="4" Click="Button_Click_1">
+                <Button.Template>
+                    <ControlTemplate>
+                        <Grid x:Name="backG">
+                            <Grid Margin="5">
+                                <Label Name="lbl" Content="회원가입" HorizontalAlignment="Center"></Label>
+                            </Grid>                           
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <!--올릴 때-->
+                                <Setter TargetName="lbl" Property="Foreground" Value="Red" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </Grid>
+    </Border>
+</Window>

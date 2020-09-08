@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Rental_BOok"
         xmlns:zg ="clr-namespace:ZedGraph;assembly=ZedGraph" 
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="768" d:DesignWidth="1360">
     <Grid Background="WhiteSmoke">
         <Grid>
             <Grid.RowDefinitions>
@@ -133,14 +133,38 @@
                     </ControlTemplate>
                 </Button.Template>
             </Button>
+
             <Grid Grid.Column="1" Grid.RowSpan="5">
-                <Grid Name="shot">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="5*"/>
+                    <ColumnDefinition Width="12*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="48*"/>
+                    <RowDefinition Height="289*"/>
+                    <RowDefinition Height="47*"/>
+                </Grid.RowDefinitions>
+                <Grid Name="shot" Grid.Row="1" Grid.Column="1">
                     <DockPanel Margin="10" LastChildFill="True">
                         <WindowsFormsHost>
                             <zg:ZedGraphControl x:Name="ZedG" Dock="Fill"/>
                         </WindowsFormsHost>
                     </DockPanel>
                 </Grid>
+                <Grid Grid.Row="0" Grid.ColumnSpan="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Margin="50,10,50,10" Grid.Column="2" Content="Button" Click="Button_Click">
+                    </Button>
+                    <Grid Grid.ColumnSpan="2">
+                        <Label Name="info" Content="Label" HorizontalAlignment="Center" Margin="10" VerticalAlignment="Center" Height="36" Width="380"/>
+
+                    </Grid>
+                </Grid>
+
             </Grid>
         </Grid>
     </Grid>

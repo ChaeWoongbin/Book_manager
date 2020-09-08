@@ -56,7 +56,7 @@ namespace Rental_BOok
             {
                 return;
             }
-            
+
             string query = "select * from books where book_name = '{0}';";
             query = string.Format(query, sel_book);
 
@@ -71,16 +71,16 @@ namespace Rental_BOok
 
             try
             {
-                Book_img.Source = new BitmapImage(new Uri(System.Environment.CurrentDirectory + @"\Books\" + searchs.Rows[0]["Image_path"] + ".png"));
+                Book_img.Source = new BitmapImage(new Uri(System.Environment.CurrentDirectory + @"\Books\" + searchs.Rows[0]["Book_name"] + ".png"));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Book_img.Source = new BitmapImage(new Uri(@"Resource\iconmonstr-book-1-240.png", UriKind.Relative)); // 이미지 찾기 실패시 기본 이미지 표시
             }
             lblname.Content = searchs.Rows[0]["Book_name"];
             lblgenre.Content = searchs.Rows[0]["Book_Genre"];
             lblauthor.Content = searchs.Rows[0]["Book_author"];
-            if(searchs.Rows[0]["Rental_User_ID"].ToString() == "1")
+            if (searchs.Rows[0]["Rental_User_ID"].ToString() == "1")
             {
                 lblstate.Content = "대여가능";
             }
@@ -89,9 +89,9 @@ namespace Rental_BOok
                 string query_history = "select Return_Date from books_history where book_name = '{0}';";
                 query_history = string.Format(query_history, sel_book);
 
-                string return_date = (Data.DB_con.read_str(query_history)).Substring(0,10);
+                string return_date = (Data.DB_con.read_str(query_history)).Substring(0, 10);
 
-                lblstate.Content = "~" + return_date + " (대여) ";
+                lblstate.Content = "~" + return_date;
             }
 
         }
@@ -113,7 +113,7 @@ namespace Rental_BOok
 
             DataTable searchs = Data.DB_con.GetTable(query);
 
-            foreach(DataRow element in searchs.Rows)
+            foreach (DataRow element in searchs.Rows)
             {
                 search_list.Items.Add(element["book_name"]);
             }

@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Rental_BOok"
         mc:Ignorable="d"
-        Title="MainWindow" Height="493.75" Width="800">
+        WindowState="Maximized"
+        Title="MainWindow" Height="768" Width="1360">
     <Grid Name="ViewGrid">
         
     </Grid>

@@ -290,7 +290,7 @@ namespace Rental_BOok
                     Book_img_path = stream.Name;
                     book_img.EndInit();*/
                 }
-                /*
+                /* 삭제시 사용오류 처리
                 book_img.BeginInit();
                 book_img.Source = new BitmapImage(new Uri(System.Environment.CurrentDirectory + @"\books\" + searchs.Rows[0]["image_path"].ToString() + ".png"));
                 Book_img_path = System.Environment.CurrentDirectory + @"\books\" + searchs.Rows[0]["image_path"].ToString() + ".png";
@@ -304,7 +304,6 @@ namespace Rental_BOok
                 Book_img_path = "";
                 book_img.EndInit();
             }
-            MessageBox.Show(System.Environment.CurrentDirectory + @"\books\" + searchs.Rows[0]["image_path"].ToString() + ".png");
             lblbook.Content = searchs.Rows[0]["Book_name"];
             lblGenre.Content = searchs.Rows[0]["Book_Genre"];
             lblAuthor.Content = searchs.Rows[0]["Book_author"];

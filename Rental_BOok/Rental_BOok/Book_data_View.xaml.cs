@@ -60,32 +60,42 @@ namespace Rental_BOok
 
             pane.CurveList.Clear();
 
-            int itemscount = 5;
+            // temp -12월 , 올해 검색
+            DataTable get_data = Data.DB_con.GetTable(@"SELECT month,COUNT(Book_ID) AS count
+                                                        FROM temp_month AS A left OUTER join books_history AS B 
+                                                        ON A.month = month(B.Rental_Date) AND YEAR(B.rental_date) >= YEAR(NOW()) AND YEAR(B.rental_date) < YEAR(NOW())+1
+                                                        Group BY month");
+            int itemscount = get_data.Rows.Count;
+
+            string[] labels = new string[itemscount];
 
             double[] YValues1 = new double[itemscount];
-            double[] YValues2 = new double[itemscount];
 
             double[] XValues = new double[itemscount];
 
-            Random rnd = new Random();
-
-            DataTable get_data = Data.DB_con.GetTable("Select * from books_history");
-
+            
             for (int i = 0; i < get_data.Rows.Count; i++)
             {
-                XValues[i] = i + 1;
-                YValues1[i] = rnd.NextDouble();
+                object label = grid_month.FindName($"month_{i+1}");
+                ((System.Windows.Controls.Label)label).Content = get_data.Rows[i]["count"];
+                //labels[i] = $"{System.DateTime.Now.Year.ToString()} - {get_data.Rows[i]["month"]}";
+                labels[i] = $"{get_data.Rows[i]["month"]}";
+                XValues[i] = Convert.ToDouble(get_data.Rows[i]["count"]);
             }
 
-            ZedGraph.BarItem myBar = pane.AddBar("Step", XValues, YValues1, System.Drawing.Color.AliceBlue);
+            pane.XAxis.Type = AxisType.Text;
+            pane.XAxis.MajorTic.IsBetweenLabels = true;
+            pane.XAxis.Scale.TextLabels = labels;
+
+            ZedGraph.BarItem myBar = pane.AddBar("Step", null, XValues, System.Drawing.Color.AliceBlue);
             myBar.Bar.Fill = new ZedGraph.Fill(System.Drawing.Color.YellowGreen);
 
             pane.BarSettings.Type = ZedGraph.BarType.Cluster;
-
+            
             pane.BarSettings.MinBarGap = 0.0f; // 옆 막대 와 거리
 
-            pane.BarSettings.MinClusterGap = 2.0f; // 각 그래프 사이 거리
-
+            pane.BarSettings.MinClusterGap = 1.0f; // 각 그래프 사이 거리
+            
             zgc.AxisChange();
 
             zgc.Invalidate();
@@ -94,6 +104,7 @@ namespace Rental_BOok
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             MakeChart();
+            info.Content = $"{System.DateTime.Now.Year} 년 검색 결과 ";
         }
     }
 }

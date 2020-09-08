@@ -24,8 +24,8 @@ namespace Rental_BOok
         {
             InitializeComponent();
             // DB table, id, pw, port, ip
-            //Data.DB_con.connect("book_l", "pi", "pi", "3306", "192.168.0.10");
-            Data.DB_con.connect("book_l", "root", "obara123", "3307", "127.0.0.1");
+            Data.DB_con.connect("book_l", "pi", "pi", "3306", "192.168.0.10");
+            //Data.DB_con.connect("book_l", "root", "obara123", "3307", "127.0.0.1");
             /*
             string query = "select user_email from users where user_id = '2'";
             string str = Data.DB_con.read_str(query);

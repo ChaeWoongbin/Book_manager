@@ -134,7 +134,39 @@
                 </Button.Template>
             </Button>
             <Grid Name="Rental_main" Margin="10" Grid.Column="1" Grid.RowSpan="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="28*"/>
+                    <RowDefinition Height="187*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="497*"/>
+                    <ColumnDefinition Width="503*"/>
+                </Grid.ColumnDefinitions>
 
+                <Image Name="Book_img" Grid.Row="1" Margin="10,10.4,7.8,10" Stretch="Uniform"/>
+
+                <Grid Name="search_info" Grid.Row="1" Grid.Column="1" Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="175*"/>
+                        <ColumnDefinition Width="192*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <Label Content="Book Name :" FontSize="20" HorizontalAlignment="Right" Margin="10" Grid.Row="1" VerticalAlignment="Center"/>
+                    <Label Name="lblname" Content="" FontSize="20" HorizontalAlignment="Left" Margin="10" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center"/>
+                    <Label Content="Genre :" FontSize="20" HorizontalAlignment="Right" Margin="10" Grid.Row="2" VerticalAlignment="Center"/>
+                    <Label Name="lblgenre" Content="" FontSize="20" HorizontalAlignment="Left" Margin="10" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center"/>
+                    <Label Content="auther :" FontSize="20" HorizontalAlignment="Right" Margin="10" Grid.Row="3" VerticalAlignment="Center"/>
+                    <Label Name="lblauthor" Content="" FontSize="20" HorizontalAlignment="Left" Margin="10" Grid.Row="3" Grid.Column="1" VerticalAlignment="Center"/>
+                    <Label Content="state :" FontSize="20" HorizontalAlignment="Right" Margin="10" Grid.Row="4" VerticalAlignment="Center"/>
+                    <Label Name="lblstate" Content=" " FontSize="20" HorizontalAlignment="Left" Margin="10" Grid.Row="4" Grid.Column="1" VerticalAlignment="Center"/>
+
+                </Grid>
             </Grid>
         </Grid>
 

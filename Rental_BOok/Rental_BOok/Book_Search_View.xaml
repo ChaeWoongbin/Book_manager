@@ -143,7 +143,7 @@
                 </Grid.ColumnDefinitions>
                 <TextBox Name="search_text" HorizontalAlignment="Left" Height="24" Margin="10,16,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="134"/>
                 <Button Name="search_btn" Content="검색" HorizontalAlignment="Left" Margin="144,16,0,0" VerticalAlignment="Top" Width="60" Height="24" Click="btn_search"/>
-                <ListBox Name="search_list" HorizontalAlignment="Left" Margin="10,10,0,30" Grid.Row="1" Width="194" SelectionChanged="ListBox_SelectionChanged" FontSize="20"/>
+                <ListBox Name="search_list" Margin="10,10.4,9.8,30" Grid.Row="1" SelectionChanged="ListBox_SelectionChanged" FontSize="20"/>
 
                 <Grid Name="search_info" Grid.Row="1" Grid.Column="3">
                     <Grid.ColumnDefinitions>

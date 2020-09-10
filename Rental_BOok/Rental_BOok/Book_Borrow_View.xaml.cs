@@ -239,7 +239,18 @@ namespace Rental_BOok
 
         private void borrow_event_Click(object sender, RoutedEventArgs e)
         {
-            
+            if(flag == Book_state.From) // 대여 ( DB 소유자 변경 )
+            {
+
+            }
+            else // 반남 ( DB 소유자 -> 1 )
+            {
+                
+                //string query = $"UPDATE `book_l`.`books` SET `Rental_User_ID`='{}' WHERE  `Book_ID`={};";   0 - 로그인 유저(비로그인 생각)  1- 책id
+                //Data.DB_con.write_query(query);
+
+                //메세지 박스 출력 (완료) 후 화면갱신
+            }
         }
     }
 }

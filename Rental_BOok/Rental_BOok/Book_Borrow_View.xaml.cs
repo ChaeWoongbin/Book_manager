@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -25,6 +26,7 @@ namespace Rental_BOok
     {
         private Socket m_ServerSocket;
         private Dictionary<string, Socket> m_ClientSocket;
+        public Dictionary<string, string> m_ClientSocket_value;
         private byte[] szData;
 
         private delegate void ThisDelegate();
@@ -58,6 +60,8 @@ namespace Rental_BOok
 
         private void OpenServer()
         {
+            m_ClientSocket = new Dictionary<string, Socket>();
+            m_ClientSocket_value = new Dictionary<string, string>();
 
             m_ClientSocket = new Dictionary<string, Socket>();
             // N개 소켓 변수
@@ -99,6 +103,7 @@ namespace Rental_BOok
                 //keys.Items.Add(ip_ + ":" + port_);
             });
             m_ClientSocket.Add(ip_ + ":" + port_, ClientSocket);
+            m_ClientSocket_value.Add(ip_ + ":" + port_, "0");
             // 클라이언트 소켓 Dictionary 추가    소켓번호, 소켓
 
             if (m_ClientSocket != null)
@@ -130,6 +135,20 @@ namespace Rental_BOok
                 sData += "\n" + ByteArrayToString(szData, e.BytesTransferred);
 
                 string sData_point = m_ClientSocket.FirstOrDefault(x => x.Value == ClientSocket).Key.ToString() + " : " + sData;
+
+                // 4 헤더 4 책id 
+                if (ByteArrayToString(szData, e.BytesTransferred).Substring(0, 4) == "3935")
+                {
+                    string ip_ = ((IPEndPoint)ClientSocket.RemoteEndPoint).Address.ToString();
+                    string port_ = ((IPEndPoint)ClientSocket.RemoteEndPoint).Port.ToString();
+                    string str = ByteArrayToString(szData, e.BytesTransferred);
+                    try
+                    {
+                        //m_ClientSocket_value[ip_ + ":" + port_] = str.Substring(4, 4);
+                        Borrow_event(str.Substring(4, 4));
+                    }
+                    catch { }
+                }
                 try
                 {
                     byte[] sDataz = stringtobyte(sData_point);
@@ -158,6 +177,47 @@ namespace Rental_BOok
 
         }
 
+        public enum Book_state
+        {
+            From = 0,
+            To = 1,
+        }
+        Book_state flag = Book_state.From;
+
+        private void Borrow_event(string book_id)
+        {
+            string id = Convert.ToInt16(book_id,16).ToString();
+            string query = $"Select * from books where Book_iD = {id} ";
+            DataTable book_info = Data.DB_con.GetTable(query);
+
+            borrow_event.IsEnabled = true;
+
+            try
+            {
+                Book_img.Source = new BitmapImage(new Uri(System.Environment.CurrentDirectory + @"\Books\" + book_info.Rows[0]["Image_path"] + ".png"));
+            }
+            catch (Exception ex)
+            {
+                Book_img.Source = new BitmapImage(new Uri(@"Resource\iconmonstr-book-1-240.png", UriKind.Relative)); // 이미지 찾기 실패시 기본 이미지 표시
+            }
+            lblname.Content = book_info.Rows[0]["Book_ID"].ToString();
+            lblgenre.Content = book_info.Rows[0]["Book_Genre"].ToString(); ;
+            lblauthor.Content = book_info.Rows[0]["Book_author"].ToString();
+            lblstate.Content = book_info.Rows[0]["Book_Note"].ToString();
+
+            if (book_info.Rows[0]["Rental_User_ID"].ToString() == "1")
+            {
+                flag = Book_state.From;
+                borrow_event.Content = "대여하기";
+            }
+            else
+            {
+                flag = Book_state.To;
+                borrow_event.Content = "반납하기";
+            }
+        }
+
+
         public static string ByteArrayToString(byte[] ba, int cnt)
         {
             StringBuilder hex = new StringBuilder(ba.Length * 2);
@@ -177,5 +237,9 @@ namespace Rental_BOok
             return convertArr;
         }
 
+        private void borrow_event_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
     }
 }

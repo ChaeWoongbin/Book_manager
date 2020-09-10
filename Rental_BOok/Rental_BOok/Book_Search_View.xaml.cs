@@ -71,7 +71,7 @@ namespace Rental_BOok
 
             try
             {
-                Book_img.Source = new BitmapImage(new Uri(System.Environment.CurrentDirectory + @"\Books\" + searchs.Rows[0]["Book_name"] + ".png"));
+                Book_img.Source = new BitmapImage(new Uri(System.Environment.CurrentDirectory + @"\Books\" + searchs.Rows[0]["Image_Path"] + ".png"));
             }
             catch (Exception ex)
             {

@@ -135,17 +135,19 @@
             </Button>
             <Grid Name="Rental_main" Margin="10" Grid.Column="1" Grid.RowSpan="5">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="28*"/>
-                    <RowDefinition Height="187*"/>
+                    <RowDefinition Height="98*"/>
+                    <RowDefinition Height="526*"/>
+                    <RowDefinition Height="123*"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="497*"/>
                     <ColumnDefinition Width="503*"/>
                 </Grid.ColumnDefinitions>
 
-                <Image Name="Book_img" Grid.Row="1" Margin="10,10.4,7.8,10" Stretch="Uniform"/>
+                <Image Name="Book_img" Grid.Row="1" Margin="10,10.6,7.8,10" Stretch="Uniform" />
+                <Button Name="borrow_event" Margin="10" Grid.Row="2" Content="대여하기" FontSize="28" Click="borrow_event_Click" IsEnabled="False"/>
 
-                <Grid Name="search_info" Grid.Row="1" Grid.Column="1" Margin="10">
+                <Grid Name="search_info" Grid.Row="1" Grid.Column="1" Margin="10.2,10.6,10,10" Grid.RowSpan="2">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="175*"/>
                         <ColumnDefinition Width="192*"/>

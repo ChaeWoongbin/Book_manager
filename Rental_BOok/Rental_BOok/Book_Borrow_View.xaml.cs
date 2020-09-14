@@ -145,9 +145,12 @@ namespace Rental_BOok
                     try
                     {
                         //m_ClientSocket_value[ip_ + ":" + port_] = str.Substring(4, 4);
-                        Borrow_event(str.Substring(4, 4));
+                        this.Dispatcher.Invoke(DispatcherPriority.Normal, (ThisDelegate)delegate ()
+                        {
+                            Borrow_event(str.Substring(4, 4));
+                        });
                     }
-                    catch { }
+                    catch(Exception ex) { MessageBox.Show(ex.ToString()); }
                 }
                 try
                 {
@@ -183,6 +186,7 @@ namespace Rental_BOok
             To = 1,
         }
         Book_state flag = Book_state.From;
+        string now_book;
 
         private void Borrow_event(string book_id)
         {
@@ -200,10 +204,11 @@ namespace Rental_BOok
             {
                 Book_img.Source = new BitmapImage(new Uri(@"Resource\iconmonstr-book-1-240.png", UriKind.Relative)); // 이미지 찾기 실패시 기본 이미지 표시
             }
-            lblname.Content = book_info.Rows[0]["Book_ID"].ToString();
+            now_book = book_info.Rows[0]["Book_ID"].ToString();
+            lblname.Content = book_info.Rows[0]["Book_Name"].ToString();
             lblgenre.Content = book_info.Rows[0]["Book_Genre"].ToString(); ;
             lblauthor.Content = book_info.Rows[0]["Book_author"].ToString();
-            lblstate.Content = book_info.Rows[0]["Book_Note"].ToString();
+            lblstate.Content = book_info.Rows[0]["Note"].ToString();
 
             if (book_info.Rows[0]["Rental_User_ID"].ToString() == "1")
             {
@@ -246,10 +251,21 @@ namespace Rental_BOok
             else // 반남 ( DB 소유자 -> 1 )
             {
                 
-                //string query = $"UPDATE `book_l`.`books` SET `Rental_User_ID`='{}' WHERE  `Book_ID`={};";   0 - 로그인 유저(비로그인 생각)  1- 책id
-                //Data.DB_con.write_query(query);
+                string query = $"UPDATE `book_l`.`books` SET `Rental_User_ID`='1' WHERE  `Book_ID`={now_book};"; //  0 - 로그인 유저(비로그인 생각)  1- 책id
+                Data.DB_con.write_query(query);
 
-                //메세지 박스 출력 (완료) 후 화면갱신
+                MessageBox.Show("반납 되었습니다.");
+
+                this.Dispatcher.Invoke(DispatcherPriority.Normal, (ThisDelegate)delegate ()
+                {
+                    //메세지 박스 출력 (완료) 후 화면갱신
+                    Book_img.Source = new BitmapImage();
+                    borrow_event.IsEnabled = false;
+                    lblname.Content = "";
+                    lblgenre.Content = "";
+                    lblauthor.Content = "";
+                    lblstate.Content = "";
+                });
             }
         }
     }

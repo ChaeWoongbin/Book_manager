@@ -86,7 +86,7 @@ namespace Rental_BOok
             }
             else
             {
-                string query_history = "select Return_Date from books_history where book_name = '{0}';";
+                string query_history = "SELECT DATE_ADD(Rental_Date, INTERVAL 7 DAY) from books_history where book_name = '{0}';";
                 query_history = string.Format(query_history, sel_book);
 
                 string return_date = (Data.DB_con.read_str(query_history)).Substring(0, 10);

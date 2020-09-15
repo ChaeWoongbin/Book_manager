@@ -248,10 +248,10 @@ namespace Rental_BOok
             {
                 if (Data.login_state) // 로그인시에만 대여 가능
                 {
-                    string query = $"UPDATE `book_l`.`books` SET `Rental_User_ID`='{Data.user.user_id}' WHERE  `Book_ID`={now_book};"; //  0 - 로그인 유저(비로그인 생각)  1- 책id
-                    string query_userhistory = $"UPDATE `book_l`.`books` SET `Rental_User_ID`='{Data.user.user_id}' WHERE  `Book_ID`={now_book};"; //  0 - 로그인 유저(비로그인 생각)  1- 책id
-                    string query_bookhistory = $"UPDATE `book_l`.`books` SET `Rental_User_ID`='{Data.user.user_id}' WHERE  `Book_ID`={now_book};"; //  0 - 로그인 유저(비로그인 생각)  1- 책id
-                    Data.DB_con.write_query(query);
+                    string query = $"UPDATE `book_l`.`books` SET `Rental_User_ID`='{Data.user.user_id}' WHERE  `Book_ID`={now_book};"; //  책 소유자 변경
+                    //string query_userhistory = $"UPDATE `book_l`.`books` SET `Rental_User_ID`='{Data.user.user_id}' WHERE  `Book_ID`={now_book};"; //  유저 로그 수정
+                    string query_bookhistory = $"INSERT INTO `book_l`.`books_history` (`Book_ID`, `User_ID`, `Book_Name`,`User_Name` ) VALUES ('{now_book}', '{Data.user.user_id}', '{lblname.Content}', '{Data.user.user_name}');"; //  책 로그 추가
+                    Data.DB_con.write_query(query + query_bookhistory);
 
                     MessageBox.Show("대여 되었습니다.");
 

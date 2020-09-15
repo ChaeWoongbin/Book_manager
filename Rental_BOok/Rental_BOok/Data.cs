@@ -28,6 +28,7 @@ namespace Rental_BOok
 
     public class login_info
     {
+        public string user_id { get; set; }
         public string user_name { get; set; }
         public string user_address { get; set; }
         public string user_email { get; set; }

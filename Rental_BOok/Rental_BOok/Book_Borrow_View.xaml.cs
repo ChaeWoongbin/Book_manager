@@ -244,15 +244,46 @@ namespace Rental_BOok
 
         private void borrow_event_Click(object sender, RoutedEventArgs e)
         {
-            if(flag == Book_state.From) // 대여 ( DB 소유자 변경 )
+            if (flag == Book_state.From) // 대여 ( DB 소유자 변경 )
             {
+                if (Data.login_state) // 로그인시에만 대여 가능
+                {
+                    string query = $"UPDATE `book_l`.`books` SET `Rental_User_ID`='{Data.user.user_id}' WHERE  `Book_ID`={now_book};"; //  0 - 로그인 유저(비로그인 생각)  1- 책id
+                    string query_userhistory = $"UPDATE `book_l`.`books` SET `Rental_User_ID`='{Data.user.user_id}' WHERE  `Book_ID`={now_book};"; //  0 - 로그인 유저(비로그인 생각)  1- 책id
+                    string query_bookhistory = $"UPDATE `book_l`.`books` SET `Rental_User_ID`='{Data.user.user_id}' WHERE  `Book_ID`={now_book};"; //  0 - 로그인 유저(비로그인 생각)  1- 책id
+                    Data.DB_con.write_query(query);
 
+                    MessageBox.Show("대여 되었습니다.");
+
+                    this.Dispatcher.Invoke(DispatcherPriority.Normal, (ThisDelegate)delegate ()
+                    {
+                        //메세지 박스 출력 (완료) 후 화면갱신
+                        Book_img.Source = new BitmapImage();
+                        borrow_event.IsEnabled = false;
+                        lblname.Content = "";
+                        lblgenre.Content = "";
+                        lblauthor.Content = "";
+                        lblstate.Content = "";
+                    });
+                }
+                else
+                {
+                    Login_View login_View = new Login_View();
+                    login_View.ShowDialog();
+                    if (login_View.DialogResult == true)
+                    {
+
+                        Data.login_state = true; // 로그인
+                    }
+                }
             }
             else // 반남 ( DB 소유자 -> 1 )
             {
-                
+                string date = System.DateTime.Now.ToString("yyyy-MM-dd");
+
                 string query = $"UPDATE `book_l`.`books` SET `Rental_User_ID`='1' WHERE  `Book_ID`={now_book};"; //  0 - 로그인 유저(비로그인 생각)  1- 책id
-                Data.DB_con.write_query(query);
+                string query_book = $"UPDATE `book_l`.`books_history` SET `Return_Date`='{date}' WHERE  `Book_ID`={now_book} and `Return_Date` IS NULL LIMIT 1"; // 가장 최근 책 대여 return 날짜 설정 ( 책은 한번에 한권 대여 )
+                Data.DB_con.write_query(query + query_book);
 
                 MessageBox.Show("반납 되었습니다.");
 

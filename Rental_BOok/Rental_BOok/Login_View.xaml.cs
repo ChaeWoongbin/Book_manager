@@ -64,7 +64,7 @@ namespace Rental_BOok
                         MessageBox.Show("비밀번호를 확인하세요");
                         return;
                     }
-                    
+                    Data.user.user_id = login_table.Rows[0]["User_ID"].ToString();
                     Data.user.user_name = login_table.Rows[0]["User_name"].ToString();
                     Data.user.user_note = login_table.Rows[0]["Note"].ToString();
                     Data.user.user_image = login_table.Rows[0]["image_path"].ToString();
